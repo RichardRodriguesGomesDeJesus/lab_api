@@ -1,4 +1,9 @@
 import app from "./app.ts";
+import dotenv from "dotenv";
+import process from "process";
+
+dotenv.config();
+
 try {
   // AppDataSource.initialize();
   console.log("Database connection established sucessfully!");
@@ -7,7 +12,9 @@ try {
   // process.exit(1);
 }
 
-app.listen(3000, () => {
-  console.log(`Server is running on port ${3000}`);
+const port = process.env.PORTNUMBER;
+
+app.listen(port, () => {
+  console.log(`Server is running on port ${port}`);
   console.log(`API is ready to use!`);
 });
