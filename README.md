@@ -149,7 +149,7 @@ conseguem apenas gerenciar os usuário (cadastrar, atualizar e excluir usuários
 analistas gerenciam amostras e resultados. As organizações estão sob responsabilidade
 dos analistas ao cadastrarem amostras.
 
-### 2.4.1. Modelo de Dados Resultados
+### 2.4.1. Modelo de Dados Usúrios
 
 | Campo            | Tipo     | Descrição                                                                 | Obrigatório |
 | ---------------- | -------- | ------------------------------------------------------------------------- | ----------- |
@@ -178,7 +178,7 @@ Detalhe cada endpoint, incluindo o método HTTP, a rota, parâmetros de requisi�
 
 ### 3.1.1. GET /organizations
 
-**Descrição:** Retorna uma lista paginada de todos os produtos.
+**Descrição:** Retorna uma lista paginada de todas as organizações.
 
 #### Parâmetros de Query:
 
@@ -190,7 +190,7 @@ Detalhe cada endpoint, incluindo o método HTTP, a rota, parâmetros de requisi�
 Exemplo de Requisição:
 
 ```HTTP
-GET /produtos?page=2&limit=5 HTTP/1.1
+GET /organizacoes?page=2&limit=5 HTTP/1.1
 Host: [BASE_URL]
 Authorization: Bearer <token>
 ```
