@@ -37,13 +37,13 @@ describe("Organization controller", () => {
     it("", async () => {
       const mockOrganizations: Organization[] = [
         {
-          organizationId: 1,
+          organizationId: "1",
           name: "Org 1",
           cnpj: "12345678901234",
           localization: { latitude: 0, longitude: 0 },
         },
         {
-          organizationId: 2,
+          organizationId: "2",
           name: "Org 2",
           cnpj: "98765432109876",
           localization: { latitude: 10, longitude: 0 },

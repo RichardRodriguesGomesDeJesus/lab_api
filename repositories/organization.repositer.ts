@@ -7,7 +7,7 @@ function getOrganizations(): Organization[] {
   return orgs;
 }
 
-function getOrganizationById(id: number): Organization | undefined {
+function getOrganizationById(id: string): Organization | undefined {
   return orgs.find((org) => org.organizationId === id);
 }
 
@@ -29,7 +29,7 @@ function updateOrganizationById(
   cnpj: string,
   latitude: number,
   longitude: number,
-  organizationId: number
+  organizationId: string
 ) {
   const orgIndex = orgs.findIndex(
     (org) => org.organizationId === organizationId
@@ -43,7 +43,7 @@ function updateOrganizationById(
   return orgs[orgIndex];
 }
 
-function deleteOrganizationById(id: number): boolean {
+function deleteOrganizationById(id: string): boolean {
   const orgIndex = orgs.findIndex((org) => org.organizationId === id);
 
   if (orgIndex === -1) {
