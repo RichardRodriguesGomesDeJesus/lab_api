@@ -8,7 +8,7 @@ function getOrganizations(req: Request, res: Response) {
 }
 
 function getOrganization(req: Request, res: Response) {
-  const id = parseInt(req.params.id);
+  const id = req.params.id;
   const org = organizationRepository.getOrganizationById(id);
   if (org) {
     res.status(200).json(org);
@@ -30,7 +30,7 @@ function createOrganization(req: Request, res: Response) {
 }
 
 function updateOrganization(req: Request, res: Response) {
-  const id = parseInt(req.params.id);
+  const id = req.params.id;
   const org = organizationRepository.updateOrganizationById(
     req.params.name,
     req.params.localization,
@@ -47,7 +47,7 @@ function updateOrganization(req: Request, res: Response) {
 }
 
 function deleteOrganization(req: Request, res: Response) {
-  const id = parseInt(req.params.id);
+  const id = req.params.id;
   const deleted = organizationRepository.deleteOrganizationById(id);
   if (deleted) {
     res.status(200).json({ message: "Organization deleted" });

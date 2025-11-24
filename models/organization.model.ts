@@ -4,7 +4,7 @@ import * as types from "../utils/types.ts";
 @Entity()
 class Organization {
   @PrimaryGeneratedColumn()
-  organizationId: number | undefined;
+  organizationId: string | undefined;
 
   @Column()
   name: string;
