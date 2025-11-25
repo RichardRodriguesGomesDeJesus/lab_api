@@ -1,0 +1,53 @@
+import User from "../models/user.model";
+
+const users: User[] = [];
+
+function getUserById(id : number) : User | undefined {
+    return users.find(user => user.id === id);    
+}
+
+function getUsers() {
+    return users;
+}
+
+function createUser(username: string, password: string, userType : number, 
+    registerDate : string, active : number) : User {
+    const user = new User(username,password, userType, registerDate, active);
+
+    users.push(user);
+
+    return user;
+}
+
+function updateUserById(username: string, password: string, userType : number, 
+     active : number, id : number) : User | undefined {
+
+    const index = users.findIndex( (usr) => usr.id === id );
+
+    if (!index) return;
+
+    users[index].username = username;
+    users[index].password = password;
+    users[index].userType = userType;
+    users[index].active = active;
+
+    return users[index]
+}
+
+function deleteUserById(id : number) : boolean {
+    const index = users.findIndex( (usr) => usr.id === id )
+
+    if (index === -1) return false;
+
+    users.splice(index, 1);
+    return true;
+
+}
+
+export default {
+    getUserById,
+    getUsers,
+    createUser,
+    updateUserById,
+    deleteUserById
+}
