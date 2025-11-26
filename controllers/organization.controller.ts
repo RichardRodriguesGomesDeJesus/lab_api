@@ -13,7 +13,9 @@ function getOrganization(req: Request, res: Response) {
   if (org) {
     res.status(200).json(org);
   } else {
-    res.status(404).json({ error: "Organization not found" });
+    res.status(404).json({
+      mensagem: "Organização não encontrada.",
+    });
   }
 }
 
@@ -23,20 +25,24 @@ function createOrganization(req: Request, res: Response) {
     name,
     localization,
     cnpj,
-    latitude,
-    longitude
+    parseFloat(latitude),
+    parseFloat(longitude)
   );
   res.status(201).json(org);
 }
 
 function updateOrganization(req: Request, res: Response) {
   const id = req.params.id;
+  const { name, localization, cnpj, latitude, longitude } = req.body;
+  if (!id) {
+    return res.status(400).json({ error: "Organization ID is required" });
+  }
   const org = organizationRepository.updateOrganizationById(
-    req.params.name,
-    req.params.localization,
-    req.params.cnpj,
-    parseFloat(req.params.latitude),
-    parseFloat(req.params.longitude),
+    name,
+    localization,
+    cnpj,
+    parseFloat(latitude),
+    parseFloat(longitude),
     id
   );
   if (org) {

@@ -6,7 +6,7 @@ function getResults(): Results[] {
   return results;
 }
 
-function getResulById(id: string): Results | undefined {
+function getResultById(id: string): Results | undefined {
   return results.find((res) => res.resultId == id);
 }
 
@@ -60,7 +60,7 @@ function deleteResultById(id: string): boolean {
 
 export default {
   getResults,
-  getResulById,
+  getResultById,
   createResult,
   updateResultById,
   deleteResultById,
