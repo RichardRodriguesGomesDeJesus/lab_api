@@ -69,6 +69,7 @@ function deleteUser(req : Request, res : Response) {
 
 export default {
     getUserByUsername,
+    getUser,
     getUsers,
     createUser,
     updateUser,

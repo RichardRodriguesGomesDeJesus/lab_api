@@ -1,9 +1,22 @@
 import User from "../models/user.model";
 
-const users: User[] = [];
+const users: User[] = [
+    User(
+        "1",
+        "crackudo",
+        "1234",
+        1,
+        "algum dia qualquer",
+        1
+    )
+];
 
-function getUserById(id : number) : User | undefined {
+function getUserById(id : string) : User | undefined {
     return users.find(user => user.id === id);    
+}
+
+function getUserByUsername(username : string) : User | undefined {
+    return users.find(usr => usr.username === username);    
 }
 
 function getUsers() {
@@ -20,7 +33,7 @@ function createUser(username: string, password: string, userType : number,
 }
 
 function updateUserById(username: string, password: string, userType : number, 
-     active : number, id : number) : User | undefined {
+     active : number, id : string) : User | undefined {
 
     const index = users.findIndex( (usr) => usr.id === id );
 
@@ -34,7 +47,7 @@ function updateUserById(username: string, password: string, userType : number,
     return users[index]
 }
 
-function deleteUserById(id : number) : boolean {
+function deleteUserById(id : string) : boolean {
     const index = users.findIndex( (usr) => usr.id === id )
 
     if (index === -1) return false;
@@ -46,6 +59,7 @@ function deleteUserById(id : number) : boolean {
 
 export default {
     getUserById,
+    getUserByUsername,
     getUsers,
     createUser,
     updateUserById,

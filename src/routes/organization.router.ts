@@ -1,12 +1,13 @@
 import express from "express";
 import organizationController from "../controllers/organization.controller.ts";
+import auth from "../middlewares/auth.middleware.ts"
 
 const router = express.Router();
 
-router.get("/", organizationController.getOrganizations);
-router.get("/:id", organizationController.getOrganization);
-router.post("/", organizationController.createOrganization);
-router.put("/:id", organizationController.updateOrganization);
-router.delete("/:id", organizationController.deleteOrganization);
+router.get("/", auth.jwtAuthMiddleware, organizationController.getOrganizations);
+router.get("/:id", auth.jwtAuthMiddleware, organizationController.getOrganization);
+router.post("/", auth.jwtAuthMiddleware, organizationController.createOrganization);
+router.put("/:id", auth.jwtAuthMiddleware, organizationController.updateOrganization);
+router.delete("/:id", auth.jwtAuthMiddleware, organizationController.deleteOrganization);
 
 export default router;
