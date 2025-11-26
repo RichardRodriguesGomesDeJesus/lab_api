@@ -1,5 +1,6 @@
 import { Response, Request } from "express";
-import Organization from "../../models/organization.model.ts";
+import Organization from "./../../src/models/organization.model.ts";
+import organizationController from "./../../src/controllers/organization.controller.ts";
 
 const mockRepository = {
   find: jest.fn(),
@@ -11,7 +12,6 @@ jest.mock("../../datasource", () => ({
   },
 }));
 
-import organizationController from "../../controllers/organization.controller.ts";
 
 const mockRequestResponse = (reqOverrides: Partial<Request>) => {
   const req: Partial<Request> = {
@@ -54,7 +54,7 @@ describe("Organization controller", () => {
 
       const { req, res } = mockRequestResponse({});
 
-      await organizationController.getOrganizations(req, res);
+      organizationController.getOrganizations(req, res);
 
       expect(mockRepository.find).toHaveBeenCalled();
       expect(res.status).toHaveBeenCalledWith(200);
