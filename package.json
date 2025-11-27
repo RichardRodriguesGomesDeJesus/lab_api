@@ -4,7 +4,11 @@
   "description": "",
   "main": "index.js",
   "scripts": {
+<<<<<<< HEAD:packege.json
+    "dev": "nodemon --exec ts-node server.ts",
+=======
     "dev": "nodemon --exec ts-node app.ts",
+>>>>>>> main:package.json
     "typeorm": "ts-node ./node_modules/typeorm/cli.js",
     "build": "tsc",
     "test": "jest"
