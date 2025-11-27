@@ -1,5 +1,6 @@
 import express, { Request, Response } from "express";
 import routerOrganization from "./src/routes/organization.router.ts";
+import routerResults from "./src/routes/result.router.ts";
 
 const app = express();
 
@@ -14,5 +15,6 @@ app.use((req: Request, res: Response) => {
 });
 
 app.use("/v1/lab/organization", routerOrganization);
+app.use("/v1/lab/results", routerResults);
 
 export default app;
