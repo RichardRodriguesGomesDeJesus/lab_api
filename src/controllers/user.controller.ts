@@ -23,7 +23,7 @@ function getUsers(req: Request, res: Response) {
 
 function getUser(req: Request, res: Response) {
   const id = req.params.id;
-  const user = userRepository.getUserById();
+  const user = userRepository.getUserById(id);
 
   if (!user) {
     res.status(404).json({ error: "User not found" });

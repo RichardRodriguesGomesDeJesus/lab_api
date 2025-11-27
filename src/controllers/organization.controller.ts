@@ -14,7 +14,7 @@ function getOrganization(req: Request, res: Response) {
     res.status(200).json(org);
   } else {
     res.status(404).json({
-      mensagem: "Organização não encontrada.",
+      mensagem: "Organization not found",
     });
   }
 }
