@@ -1,5 +1,5 @@
 import express, { Request, Response } from "express";
-import routerOrganization from "./routes/organization.router.ts";
+import routerOrganization from "../routes/organization.router.ts";
 
 const app = express();
 
