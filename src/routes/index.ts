@@ -1,5 +1,5 @@
 import express from "express";
-import users from "./routes/user.router.ts";
+import users from "./routes/user.router";
 import "dotenv";
 
 const port = process.env.PORTNUMBER;

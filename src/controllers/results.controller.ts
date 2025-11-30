@@ -1,5 +1,5 @@
 import { Request, Response } from "express";
-import resultsRepositer from "../repositories/results.repositer.ts";
+import resultsRepositer from "../repositories/results.repository.js";
 
 function getResults(req: Request, res: Response) {
   const results = resultsRepositer.getResults();

@@ -1,6 +1,6 @@
 import { Request, Response } from "express";
 import jwt from "jsonwebtoken";
-import userRepository from "../repositories/user.repository.ts";
+import userRepository from "../repositories/user.repository.js";
 import dotenv from "dotenv";
 import { compare } from "bcrypt";
 dotenv.config();

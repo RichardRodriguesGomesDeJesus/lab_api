@@ -1,4 +1,4 @@
-import Results from "../models/resultados.model.ts";
+import Results from "../models/results.model.js";
 
 const results: Results[] = [];
 

@@ -1,8 +1,8 @@
 import express, { Request, Response } from "express";
-import routerOrganization from "./src/routes/organization.router.ts";
-import routerResults from "./src/routes/result.router.ts";
-import routerUsers from "./src/routes/user.router.ts";
-import routerLogin from "./src/routes/login.router.ts";
+import routerOrganization from "./routes/organization.router";
+import routerResults from "./routes/result.router";
+import routerUsers from "./routes/user.router";
+import routerLogin from "./routes/login.router";
 
 const app = express();
 
