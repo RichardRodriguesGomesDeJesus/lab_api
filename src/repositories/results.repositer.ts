@@ -1,51 +1,55 @@
 import Results from "../models/resultados.model.ts";
-
+import { AppDataSource } from "../datasource.ts";
 const results: Results[] = [];
 
-function getResults(): Results[] {
+const repository = AppDataSource.getRepository(Results);
+
+async function getResults(): Promise<Results[]> {
+  const results = await repository.find();
   return results;
 }
 
-function getResultById(id: string): Results | undefined {
-  return results.find((res) => res.resultId == id);
+async function getResultById(id: string): Promise<Results | null> {
+  return await repository.findOneBy({ resultId: id });
 }
 
-function createResult(
+async function createResult(
   sampleId: string,
   sampleStatus: number,
   analysisDate: string,
   resultDate: string,
-  report: string
-): Results {
-  const res = new Results(
+  report: string,
+  organizationId: string
+): Promise<Results> {
+  const results = new Results(
     sampleId,
     sampleStatus,
     analysisDate,
     resultDate,
     report
   );
-  results.push(res);
-  return res;
+  const newResults = await repository.save(results);
+  return newResults;
 }
 
-function updateResultById(
+async function updateResultById(
   sampleId: string,
   sampleStatus: number,
   analysisDate: string,
   resultDate: string,
   report: string,
   id: string
-): Results | null {
-  const resIndex = results.findIndex((res) => res.resultId === id);
-  if (!resIndex) {
+): Promise<Results | null> {
+  const result = await repository.findOneBy({ resultId: id });
+  if (!result) {
     return null;
   }
-  results[resIndex].sampleId = sampleId;
-  results[resIndex].sampleStatus = sampleStatus;
-  results[resIndex].analysisDate = analysisDate;
-  results[resIndex].resultDate = resultDate;
-  results[resIndex].report = report;
-  return results[resIndex];
+  result.sampleId = sampleId;
+  result.sampleStatus = sampleStatus;
+  result.analysisDate = analysisDate;
+  result.resultDate = resultDate;
+  result.report = report;
+  return await repository.save(result);
 }
 
 function deleteResultById(id: string): boolean {

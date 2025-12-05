@@ -1,15 +1,16 @@
 import { Request, Response } from "express";
 import Organization from "../models/organization.model.ts";
+
 import organizationRepository from "../repositories/organization.repositer.ts";
 
-function getOrganizations(req: Request, res: Response) {
-  const orgs = organizationRepository.getOrganizations();
+async function getOrganizations(req: Request, res: Response) {
+  const orgs = await organizationRepository.getOrganizations();
   res.status(200).json(orgs);
 }
 
-function getOrganization(req: Request, res: Response) {
+async function getOrganization(req: Request, res: Response) {
   const id = req.params.id;
-  const org = organizationRepository.getOrganizationById(id);
+  const org = await organizationRepository.getOrganizationById(id);
   if (org) {
     res.status(200).json(org);
   } else {
@@ -18,10 +19,17 @@ function getOrganization(req: Request, res: Response) {
     });
   }
 }
+async function getResultsByOrganizationId(req: Request, res: Response) {
+  const id = req.params.id;
+  const results = await organizationRepository.getResultByOrganizationId(id);
+  if (results) {
+    res.status(200).json(results);
+  }
+}
 
-function createOrganization(req: Request, res: Response) {
+async function createOrganization(req: Request, res: Response) {
   const { name, localization, cnpj, latitude, longitude } = req.body;
-  const org = organizationRepository.createOrganization(
+  const org = await organizationRepository.createOrganization(
     name,
     localization,
     cnpj,
@@ -31,13 +39,13 @@ function createOrganization(req: Request, res: Response) {
   res.status(201).json(org);
 }
 
-function updateOrganization(req: Request, res: Response) {
+async function updateOrganization(req: Request, res: Response) {
   const id = req.params.id;
   const { name, localization, cnpj, latitude, longitude } = req.body;
   if (!id) {
     return res.status(400).json({ error: "Organization ID is required" });
   }
-  const org = organizationRepository.updateOrganizationById(
+  const org = await organizationRepository.updateOrganizationById(
     name,
     localization,
     cnpj,
@@ -52,19 +60,20 @@ function updateOrganization(req: Request, res: Response) {
   }
 }
 
-function deleteOrganization(req: Request, res: Response) {
+async function deleteOrganization(req: Request, res: Response) {
   const id = req.params.id;
-  const deleted = organizationRepository.deleteOrganizationById(id);
+  const deleted = await organizationRepository.deleteOrganizationById(id);
   if (deleted) {
-    res.status(200).json({ message: "Organization deleted" });
+    res.status(200);
   } else {
-    res.status(404).json({ error: "Organization not found" });
+    res.status(404);
   }
 }
 
 export default {
   getOrganizations,
   getOrganization,
+  getResultsByOrganizationId,
   createOrganization,
   updateOrganization,
   deleteOrganization,

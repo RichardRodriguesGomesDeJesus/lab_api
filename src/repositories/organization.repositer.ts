@@ -1,61 +1,74 @@
 import Organization from "../models/organization.model.ts";
+import { AppDataSource } from "../datasource.ts";
 import { localization } from "../utils/types.ts";
+import Results from "../models/resultados.model.ts";
 
-const orgs: Organization[] = [];
+const repository = AppDataSource.getRepository(Organization);
 
-function getOrganizations(): Organization[] {
+async function getOrganizations(): Promise<Organization[]> {
+  const orgs = await repository.find();
   return orgs;
 }
 
-function getOrganizationById(id: string): Organization | undefined {
-  return orgs.find((org) => org.organizationId === id);
+async function getOrganizationById(id: string): Promise<Organization | null> {
+  return await repository.findOneBy({ organizationId: id });
 }
 
-function createOrganization(
+async function getResultByOrganizationId(
+  id: string
+): Promise<Results[] | null> {
+  const results = await AppDataSource.getRepository(Results).find({
+    where: { organizationId: id },
+  });
+  return results;
+}
+async function createOrganization(
   name: string,
   localization: localization,
   cnpj: string,
   latitude: number,
   longitude: number
-) {
+): Promise<Organization> {
   const org = new Organization(name, localization, latitude, longitude, cnpj);
-  orgs.push(org);
-  return org;
+  return await repository.save(org);
 }
 
-function updateOrganizationById(
+async function updateOrganizationById(
   name: string,
   localization: localization,
   cnpj: string,
   latitude: number,
   longitude: number,
   organizationId: string
-) {
-  const orgIndex = orgs.findIndex(
-    (org) => org.organizationId === organizationId
-  );
-  if (!orgIndex) {
+): Promise<Organization | null> {
+  const org = await repository.findOneBy({ organizationId });
+  if (!org) {
     return null;
   }
-  orgs[orgIndex].name = name;
-  orgs[orgIndex].localization = localization;
-  orgs[orgIndex].cnpj = cnpj;
-  return orgs[orgIndex];
+  org.name = name;
+  org.localization = localization;
+  org.cnpj = cnpj;
+  return await repository.save(org);
 }
 
-function deleteOrganizationById(id: string): boolean {
-  const orgIndex = orgs.findIndex((org) => org.organizationId === id);
+async function deleteOrganizationById(id: string): Promise<boolean> {
+  const org = await repository.findOneBy({ organizationId: id });
 
-  if (orgIndex === -1) {
+  if (org) {
     return false;
   }
-  orgs.splice(orgIndex, 1);
-  return true;
+  try {
+    await repository.delete(id);
+    return true;
+  } catch (error) {
+    return false;
+  }
 }
 
 export default {
   getOrganizations,
   getOrganizationById,
+  getResultByOrganizationId,
   createOrganization,
   updateOrganizationById,
   deleteOrganizationById,
