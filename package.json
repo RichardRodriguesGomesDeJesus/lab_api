@@ -4,17 +4,33 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "dev": "nodemon --exec ts-node app.ts",
+    "dev": "nodemon --exec ts-node src/server.ts",
     "typeorm": "ts-node ./node_modules/typeorm/cli.js",
+    "docs": "ts-node src/swagger.ts",
     "build": "tsc",
+    "start": "node dist/server.js",
     "test": "jest"
   },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/RichardRodriguesGomesDeJesus/lab_api.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://https://github.com/RichardRodriguesGomesDeJesus/lab_api/issues"
+  },
+  "homepage": "https://ghttps://github.com/RichardRodriguesGomesDeJesus/lab_api.git#readme",
   "dependencies": {
+    "bcrypt": "^6.0.0",
     "dotenv": "^17.2.1",
     "express": "^5.1.0",
     "jsonwebtoken": "^9.0.2",
     "pg": "^8.16.3",
     "reflect-metadata": "^0.2.2",
+    "swagger-autogen": "^2.23.7",
+    "swagger-ui-express": "^5.0.1",
     "typeorm": "^0.3.27"
   },
   "devDependencies": {
@@ -23,12 +39,11 @@
     "@types/express": "^5.0.3",
     "@types/jest": "^30.0.0",
     "@types/jsonwebtoken": "^9.0.10",
-    "bcrypt": "^6.0.0",
+    "@types/swagger-ui-express": "^4.1.8",
     "jest": "^30.2.0",
     "nodemon": "^3.1.10",
     "ts-jest": "^29.4.5",
     "ts-node": "^10.9.2",
-    "typescript": "^5.9.2"
-  },
-  "type" : "module"
+    "typescript": "^5.9.3"
+  }
 }

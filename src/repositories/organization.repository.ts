@@ -1,5 +1,5 @@
-import Organization from "../models/organization.model.ts";
-import { localization } from "../utils/types.ts";
+import Organization from "../models/organization.model.js";
+import { localization } from "../utils/types.js";
 
 const orgs: Organization[] = [];
 

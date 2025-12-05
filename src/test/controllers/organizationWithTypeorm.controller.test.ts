@@ -1,6 +1,6 @@
 import { Response, Request } from "express";
-import Organization from "./../../src/models/organization.model.ts";
-import organizationController from "./../../src/controllers/organization.controller.ts";
+import Organization from "./../../src/models/organization.model";
+import organizationController from "./../../src/controllers/organization.controller";
 
 const mockRepository = {
   find: jest.fn(),

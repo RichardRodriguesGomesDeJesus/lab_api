@@ -1,7 +1,10 @@
 import { Request, Response, NextFunction } from "express";
 import jwt from "jsonwebtoken";
-import dotenv from "dotenv"
 
+import dotenv from "dotenv"
+import { AppDataSource } from "../datasource";
+import { compare } from "bcrypt";
+import User from "../models/user.model";
 dotenv.config();
 
 

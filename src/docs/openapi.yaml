@@ -1,0 +1,419 @@
+openapi: 3.0.3
+info:
+  title: API de Gerenciamento de Análises Laboratoriais
+  description: >
+    API REST para gerenciamento de análises laboratoriais, permitindo que laboratórios
+    administrem organizações, amostras, resultados e usuários.  
+    Suporta operações CRUD completas e autenticação via JWT.
+  version: 1.0.0
+servers:
+  - url: https://localhost:8080/v1/lab
+    description: Servidor Local
+
+components:
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
+
+  schemas:
+
+    Organization:
+      type: object
+      properties:
+        organizationId:
+          type: string
+        name:
+          type: string
+        localization:
+          type: object
+          properties:
+            latitude:
+              type: number
+            longitude:
+              type: number
+        cnpj:
+          type: string
+
+    Sample:
+      type: object
+      properties:
+        sampleId:
+          type: string
+        externalId:
+          type: string
+        organizationId:
+          type: string
+        checkInDate:
+          type: string
+          format: date-time
+        registerDate:
+          type: string
+          format: date-time
+        type:
+          type: string
+        analysis:
+          type: string
+        description:
+          type: string
+
+    Result:
+      type: object
+      properties:
+        resultId:
+          type: string
+        sampleId:
+          type: string
+        sampleStatus:
+          type: integer
+          enum: [0, 1, 2, 3]
+        analysisDate:
+          type: string
+          format: date-time
+        resultDate:
+          type: string
+          format: date-time
+        report:
+          type: string
+
+    User:
+      type: object
+      properties:
+        userId:
+          type: string
+        username:
+          type: string
+        password:
+          type: string
+        userType:
+          type: integer
+          enum: [0, 1, 2]
+        registerDate:
+          type: string
+          format: date-time
+        active:
+          type: integer
+          enum: [0, 1]
+
+security:
+  - bearerAuth: []
+
+paths:
+
+  /organizations:
+    get:
+      summary: Lista todas as organizações
+      security:
+        - bearerAuth: []
+      parameters:
+        - name: page
+          in: query
+          schema:
+            type: integer
+            default: 1
+        - name: limit
+          in: query
+          schema:
+            type: integer
+            default: 100
+      responses:
+        '200':
+          description: Lista de organizações
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/Organization"
+
+    post:
+      summary: Cria nova organização
+      security:
+        - bearerAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/Organization"
+      responses:
+        '201':
+          description: Organização criada
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Organization"
+
+  /organizations/{id}:
+    get:
+      summary: Retorna organização específica
+      security:
+        - bearerAuth: []
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Organização encontrada
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Organization"
+        '404':
+          description: Organização não encontrada
+
+    put:
+      summary: Atualiza uma organização
+      security:
+        - bearerAuth: []
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema: { type: string }
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/Organization"
+      responses:
+        '200':
+          description: Organização atualizada
+
+    delete:
+      summary: Remove uma organização
+      security:
+        - bearerAuth: []
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema: { type: string }
+      responses:
+        '204':
+          description: Excluído com sucesso
+
+  /samples:
+    get:
+      summary: Lista todas as amostras
+      security:
+        - bearerAuth: []
+      parameters:
+        - name: page
+          in: query
+          schema: { type: integer, default: 1 }
+        - name: limit
+          in: query
+          schema: { type: integer, default: 100 }
+        - name: type
+          in: query
+          schema: { type: string }
+        - name: analysis
+          in: query
+          schema: { type: string }
+      responses:
+        '200':
+          description: Lista de amostras
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/Sample"
+
+    post:
+      summary: Registra nova amostra
+      security:
+        - bearerAuth: []
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/Sample"
+      responses:
+        '201':
+          description: Amostra criada
+
+  /samples/{id}:
+    get:
+      summary: Retorna uma amostra específica
+      security:
+        - bearerAuth: []
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema: { type: string }
+      responses:
+        '200':
+          description: Amostra encontrada
+
+    put:
+      summary: Atualiza amostra
+      security:
+        - bearerAuth: []
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema: { type: string }
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/Sample"
+      responses:
+        '200':
+          description: Atualizada
+
+    delete:
+      summary: Exclui amostra
+      security:
+        - bearerAuth: []
+      parameters:
+        - name: id
+          in: path
+          required: true
+      responses:
+        '204':
+          description: Excluída
+
+
+  /results:
+    get:
+      summary: Lista todos os resultados
+      security:
+        - bearerAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/Result"
+
+    post:
+      summary: Registra novo resultado
+      security:
+        - bearerAuth: []
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/Result"
+      responses:
+        '201':
+          description: Criado
+
+  /results/{id}:
+    get:
+      summary: Retorna resultado específico
+      security:
+        - bearerAuth: []
+      parameters:
+        - name: id
+          in: path
+          required: true
+      responses:
+        '200':
+          description: OK
+
+    put:
+      summary: Atualiza resultado
+      security:
+        - bearerAuth: []
+      parameters:
+        - name: id
+          in: path
+          required: true
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/Result"
+      responses:
+        '200':
+          description: Atualizado
+
+    delete:
+      summary: Exclui resultado
+      security:
+        - bearerAuth: []
+      parameters:
+        - name: id
+          in: path
+          required: true
+      responses:
+        '204':
+          description: Excluído
+
+
+  /users:
+    get:
+      summary: Lista usuários do sistema
+      security:
+        - bearerAuth: []
+      responses:
+        '200':
+          description: Lista de usuários
+
+    post:
+      summary: Cadastra novo usuário
+      security:
+        - bearerAuth: []
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/User"
+      responses:
+        '201':
+          description: Criado
+
+  /users/{id}:
+    get:
+      summary: Retorna usuário específico
+      security:
+        - bearerAuth: []
+      parameters:
+        - name: id
+          in: path
+          required: true
+      responses:
+        '200':
+          description: OK
+
+    put:
+      summary: Atualiza dados de usuário
+      security:
+        - bearerAuth: []
+      parameters:
+        - name: id
+          in: path
+          required: true
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/User"
+      responses:
+        '200':
+          description: Atualizado
+
+    delete:
+      summary: Remove usuário
+      security:
+        - bearerAuth: []
+      parameters:
+        - name: id
+          in: path
+          required: true
+      responses:
+        '204':
+          description: Excluído

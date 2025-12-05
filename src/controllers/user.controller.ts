@@ -1,6 +1,6 @@
 import { Request, Response } from "express";
-import User from "../models/user.model.ts";
-import userRepository from "../repositories/user.repository.ts";
+import User from "../models/user.model";
+import userRepository from "../repositories/user.repository";
 
 function getUserByUsername(req: Request, res: Response) {
   const username = String(req.params.username);

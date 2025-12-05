@@ -1,5 +1,5 @@
 import { Entity, PrimaryGeneratedColumn, Column } from "typeorm";
-import * as types from "../utils/types.ts";
+import * as types from "../utils/types";
 
 @Entity()
 class Organization {

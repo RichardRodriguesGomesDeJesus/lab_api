@@ -1,8 +1,11 @@
 import { Request, Response } from "express";
 import jwt from "jsonwebtoken";
-import userRepository from "../repositories/user.repository.ts";
+import userRepository from "../repositories/user.repository";
 import dotenv from "dotenv";
+import User from "../models/user.model";
 import { compare } from "bcrypt";
+import { AppDataSource } from "../datasource";
+
 dotenv.config();
 
 async function login(req: Request, res: Response) {
@@ -32,6 +35,7 @@ async function login(req: Request, res: Response) {
     return;
   }
 
+  const repository = AppDataSource.getRepository(User);
   const user = userRepository.getUserByUsername(username);
 
   if (user == null) {
