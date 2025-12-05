@@ -19,6 +19,13 @@ async function getOrganization(req: Request, res: Response) {
     });
   }
 }
+async function getResultsByOrganizationId(req: Request, res: Response) {
+  const id = req.params.id;
+  const results = await organizationRepository.getResultByOrganizationId(id);
+  if (results) {
+    res.status(200).json(results);
+  }
+}
 
 async function createOrganization(req: Request, res: Response) {
   const { name, localization, cnpj, latitude, longitude } = req.body;
@@ -66,6 +73,7 @@ async function deleteOrganization(req: Request, res: Response) {
 export default {
   getOrganizations,
   getOrganization,
+  getResultsByOrganizationId,
   createOrganization,
   updateOrganization,
   deleteOrganization,

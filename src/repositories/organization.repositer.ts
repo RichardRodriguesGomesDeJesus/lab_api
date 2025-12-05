@@ -1,6 +1,7 @@
 import Organization from "../models/organization.model.ts";
 import { AppDataSource } from "../datasource.ts";
 import { localization } from "../utils/types.ts";
+import Results from "../models/resultados.model.ts";
 
 const repository = AppDataSource.getRepository(Organization);
 
@@ -13,6 +14,14 @@ async function getOrganizationById(id: string): Promise<Organization | null> {
   return await repository.findOneBy({ organizationId: id });
 }
 
+async function getResultByOrganizationId(
+  id: string
+): Promise<Results[] | null> {
+  const results = await AppDataSource.getRepository(Results).find({
+    where: { organizationId: id },
+  });
+  return results;
+}
 async function createOrganization(
   name: string,
   localization: localization,
@@ -59,6 +68,7 @@ async function deleteOrganizationById(id: string): Promise<boolean> {
 export default {
   getOrganizations,
   getOrganizationById,
+  getResultByOrganizationId,
   createOrganization,
   updateOrganizationById,
   deleteOrganizationById,
