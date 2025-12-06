@@ -1,7 +1,7 @@
 import { Entity, PrimaryGeneratedColumn, Column } from "typeorm";
 import * as types from "../utils/types.ts";
 
-@Entity()
+@Entity("results")
 class Results {
   @PrimaryGeneratedColumn()
   resultId: string | undefined;

@@ -1,12 +1,18 @@
 import { Entity, PrimaryGeneratedColumn, Column } from "typeorm";
 import * as types from "../utils/types.ts";
 
+@Entity("sample")
 class Sample {
+  @PrimaryGeneratedColumn()
   sampleId: string | undefined;
+  @Column()
   description: string;
+  @Column()
   collectionDate: string;
+  @Column()
   organizationId: string;
-  localization: types.localization;
+  @Column({ type: "jsonb" })
+  localization: any;
 
   constructor(
     description: string,

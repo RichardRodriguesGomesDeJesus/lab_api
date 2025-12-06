@@ -1,60 +1,57 @@
+import { AppDataSource } from "../datasource.ts";
 import User from "../models/user.model.ts";
 
-const users: User[] = [
-  new User("crackudo", "1234", 1, "algum dia qualquer", 1),
-];
+const repository = AppDataSource.getRepository(User);
 
-function getUserById(id: string): User | undefined {
-  return users.find((user) => user.id === id);
+async function getUserById(id: string): Promise<User | null> {
+  return await repository.findOneBy({ id });
 }
 
-function getUserByUsername(username: string): User | undefined {
-  return users.find((usr) => usr.username === username);
+async function getUserByUsername(username: string): Promise<User | null> {
+  return await repository.findOneBy({ username });
+}
+async function getUsers() {
+  return await repository.find();
 }
 
-function getUsers() {
-  return users;
-}
-
-function createUser(
+async function createUser(
   username: string,
   password: string,
   userType: number,
   registerDate: string,
   active: number
-): User {
+): Promise<User> {
   const user = new User(username, password, userType, registerDate, active);
 
-  users.push(user);
-
-  return user;
+  return await repository.save(user);
 }
 
-function updateUserById(
+async function updateUserById(
   username: string,
   password: string,
   userType: number,
   active: number,
   id: string
-): User | undefined {
-  const index = users.findIndex((usr) => usr.id === id);
+): Promise<User | null> {
+  const user = await repository.findOneBy({ id });
 
-  if (!index) return;
+  if (!user) return null;
 
-  users[index].username = username;
-  users[index].password = password;
-  users[index].userType = userType;
-  users[index].active = active;
+  user.username = username;
+  user.password = password;
+  user.userType = userType;
+  user.active = active;
 
-  return users[index];
+  return await repository.save(user);
 }
 
-function deleteUserById(id: string): boolean {
-  const index = users.findIndex((usr) => usr.id === id);
+async function deleteUserById(id: string): Promise<boolean> {
+  const user = await repository.findOneBy({ id });
 
-  if (index === -1) return false;
+  if (!user) return false;
 
-  users.splice(index, 1);
+  await repository.delete(id);
+
   return true;
 }
 

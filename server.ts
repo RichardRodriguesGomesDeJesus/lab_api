@@ -1,15 +1,16 @@
 import app from "./app.ts";
 import dotenv from "dotenv";
 import process from "process";
+import { AppDataSource } from "./src/datasource.ts";
 
 dotenv.config();
 
 try {
-  // AppDataSource.initialize();
+  AppDataSource.initialize();
   console.log("Database connection established sucessfully!");
 } catch (err) {
   console.error("Error connection to database:", err);
-  // process.exit(1);
+  process.exit(1);
 }
 
 const port = process.env.PORTNUMBER;
