@@ -41,7 +41,7 @@ async function login(req: Request, res: Response) {
     return;
   }
 
-  const isValid = await compare(password, user.password);
+  const isValid = password === user.password;
 
   if (!isValid) {
     res

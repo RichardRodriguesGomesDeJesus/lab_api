@@ -1,7 +1,7 @@
 import { Entity, PrimaryGeneratedColumn, Column } from "typeorm";
 import * as types from "../utils/types.ts";
 
-@Entity()
+@Entity("organization")
 class Organization {
   @PrimaryGeneratedColumn()
   organizationId: string | undefined;
@@ -9,8 +9,8 @@ class Organization {
   @Column()
   name: string;
 
-  @Column()
-  localization: types.localization;
+  @Column({ type: "jsonb" })
+  localization: any;
 
   @Column()
   cnpj: string;
