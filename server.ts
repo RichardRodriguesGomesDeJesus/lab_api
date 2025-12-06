@@ -1,6 +1,7 @@
 import app from "./app";
 import { AppDataSource } from "./datasource";
 import dotenv from "dotenv";
+import process from "process";
 dotenv.config();
 
 AppDataSource.initialize()
