@@ -1,7 +1,7 @@
 import { Request, Response } from "express";
 import Organization from "../models/organization.model.ts";
 
-import organizationRepository from "../repositories/organization.repositer.ts";
+import organizationRepository from "../repositories/organization.repository.ts";
 
 async function getOrganizations(req: Request, res: Response) {
   const orgs = await organizationRepository.getOrganizations();
