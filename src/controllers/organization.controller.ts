@@ -1,6 +1,6 @@
 import { Request, Response } from "express";
-import Organization from "../models/organization.model";
-import organizationRepository from "../repositories/organization.repository";
+import Organization from "../models/organization.model.ts";
+import organizationRepository from "../repositories/organization.repository.ts";
 
 function getOrganizations(req: Request, res: Response) {
   const orgs = organizationRepository.getOrganizations();
