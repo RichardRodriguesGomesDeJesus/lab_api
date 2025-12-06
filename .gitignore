@@ -1,4 +1,5 @@
 node_modules
 deno.json
 deno.lock
+coverage
 .env
