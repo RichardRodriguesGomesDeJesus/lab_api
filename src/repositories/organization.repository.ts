@@ -14,12 +14,15 @@ async function getOrganizationById(id: string): Promise<Organization | null> {
   return await repository.findOneBy({ organizationId: id });
 }
 
-async function getResultByOrganizationId(
-  id: string
-): Promise<Results[] | null> {
-  const results = await AppDataSource.getRepository(Results).find({
-    where: { organizationId: id },
+async function getResultByOrganizationId(id: string): Promise<Results | null> {
+  const results = await AppDataSource.getRepository(Results).findOneBy({
+    sampleId: id,
   });
+
+  if (!results) {
+    return null;
+  }
+
   return results;
 }
 async function createOrganization(

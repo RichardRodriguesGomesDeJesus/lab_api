@@ -52,13 +52,15 @@ async function updateResultById(
   return await repository.save(result);
 }
 
-function deleteResultById(id: string): boolean {
-  const resultIndex = results.findIndex((res) => res.resultId === id);
+async function deleteResultById(id: string): Promise<boolean> {
+  const result = await repository.findBy({ resultId: id });
 
-  if (resultIndex === -1) {
+  if (!result) {
     return false;
   }
-  results.splice(resultIndex, 1);
+
+  await repository.delete(id);
+
   return true;
 }
 
