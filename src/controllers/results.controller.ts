@@ -1,14 +1,19 @@
 import { Request, Response } from "express";
 import resultsRepositer from "../repositories/results.repositer.ts";
 
-function getResults(req: Request, res: Response) {
-  const results = resultsRepositer.getResults();
+async function getResults(req: Request, res: Response) {
+  const results = await resultsRepositer.getResults();
   res.status(200).json(results);
 }
 
-function getResult(req: Request, res: Response) {
+async function getResult(req: Request, res: Response) {
   const id = req.params.id;
-  const result = resultsRepositer.getResultById(id);
+
+  if (!id) {
+    res.status(400).json({ error: "Missing required fields" });
+  }
+
+  const result = await resultsRepositer.getResultById(id);
 
   if (result) {
     res.status(200).json(result);
@@ -19,25 +24,41 @@ function getResult(req: Request, res: Response) {
   }
 }
 
-function createResult(req: Request, res: Response) {
-  const { sampleId, sampleStatus, analysisDate, resultDate, report } = req.body;
+async function createResult(req: Request, res: Response) {
+  const {
+    sampleId,
+    sampleStatus,
+    analysisDate,
+    resultDate,
+    report,
+    IdOrganization,
+  } = req.body;
   const result = resultsRepositer.createResult(
     sampleId,
     parseInt(sampleStatus),
     analysisDate,
     resultDate,
-    report
+    report,
+    IdOrganization
   );
   res.status(201).json(result);
 }
 
-function updateResult(req: Request, res: Response) {
+async function updateResult(req: Request, res: Response) {
   const id = req.params.id;
   const { sampleId, sampleStatus, analysisDate, resultDate, report } = req.body;
-  if (!id) {
-    return res.status(400).json({ error: "Organization ID is required" });
+  if (
+    !id ||
+    !sampleId ||
+    !sampleStatus ||
+    !analysisDate ||
+    !resultDate ||
+    !report
+  ) {
+    return res.status(400).json({ error: "Missing required fields" });
   }
-  const result = resultsRepositer.updateResultById(
+
+  const result = await resultsRepositer.updateResultById(
     sampleId,
     parseInt(sampleStatus),
     analysisDate,
@@ -45,11 +66,17 @@ function updateResult(req: Request, res: Response) {
     report,
     id
   );
+
+  if (result) {
+    res.status(200).json(result);
+  } else {
+    res.status(404).json({ error: "Result not found" });
+  }
 }
 
-function deleteResult(req: Request, res: Response) {
+async function deleteResult(req: Request, res: Response) {
   const id = req.params.id;
-  const deleted = resultsRepositer.deleteResultById(id);
+  const deleted = await resultsRepositer.deleteResultById(id);
 
   if (deleted) {
     res.status(200).json({ message: "Result deleted" });
