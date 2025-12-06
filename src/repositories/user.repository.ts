@@ -1,6 +1,8 @@
 import User from "../models/user.model.ts";
 
-const users: User[] = [];
+const users: User[] = [
+  new User("crackudo", "1234", 1, "algum dia qualquer", 1),
+];
 
 function getUserById(id: string): User | undefined {
   return users.find((user) => user.id === id);
